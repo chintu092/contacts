@@ -34,7 +34,9 @@ export function middleware(req: any) {
   const token = req.cookies.get("usercookie")?.value;
   const { pathname } = req.nextUrl;
 
-  // Routes that should be accessible ONLY when NOT logged in
+  console.log("Middleware running");
+
+  // Public routes accessible only when NOT logged in
   const publicRoutes = ["/login", "/signup"];
 
   // If user is NOT logged in and trying to access a restricted page, redirect to login
@@ -42,7 +44,7 @@ export function middleware(req: any) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  // If user IS logged in and trying to access login or signup, redirect to home
+  // If user IS logged in and trying to access login or signup, force redirect to home
   if (token && publicRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL("/", req.url));
   }
@@ -51,7 +53,7 @@ export function middleware(req: any) {
   return NextResponse.next();
 }
 
-// Define which routes the middleware applies to
+// Apply middleware to all pages except Next.js internals
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"], // Apply to all pages except Next.js internals
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

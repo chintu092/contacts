@@ -34,6 +34,8 @@ const Home = () => {
 
   const token = Cookies.get("usercookie");
 
+  console.log(user);
+
   const contactAdd = async () => {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_CONTACT_URL}`, {
@@ -146,7 +148,7 @@ const Home = () => {
                     </div>
                   </div>
                   <div className="capitalize user_name text-[#67696b]">
-                    {user?.username}
+                    {user?.name ? user?.name : user?.username}
                   </div>
                 </div>
                 <div
